@@ -35,7 +35,8 @@ namespace Jabberwocky.Glass.Factory.Interceptors
 
 		public void Intercept(IInvocation invocation)
 		{
-			var glassFactoryTypeAttribute = invocation.TargetType.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			//var glassFactoryTypeAttribute = invocation.TargetType.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			var glassFactoryTypeAttribute = invocation.TargetType.GetCustomAttributes(typeof(GlassFactoryTypeAttribute), true).Cast<GlassFactoryTypeAttribute>().FirstOrDefault();
 			if (invocation.MethodInvocationTarget.IsAbstract && glassFactoryTypeAttribute != null)
 			{
 				// Custom resolution required
@@ -65,7 +66,8 @@ namespace Jabberwocky.Glass.Factory.Interceptors
 		private void ResolveInvocation(IInvocation invocation, GlassFactoryTypeAttribute glassFactoryTypeAttribute)
 		{
 			var glassType = glassFactoryTypeAttribute.Type;
-			var sitecoreAttribute = glassType.GetCustomAttribute<SitecoreTypeAttribute>();
+			//var sitecoreAttribute = glassType.GetCustomAttribute<SitecoreTypeAttribute>();
+			var sitecoreAttribute = glassType.GetCustomAttributes(typeof(SitecoreTypeAttribute), true).Cast<SitecoreTypeAttribute>().FirstOrDefault();
 
 			// If this is a final fallback type that is not associated with a direct Sitecore template
 			if (sitecoreAttribute == null) return;

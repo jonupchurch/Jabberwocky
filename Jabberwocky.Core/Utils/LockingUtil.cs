@@ -71,31 +71,31 @@ namespace Jabberwocky.Core.Utils
 			return @lock;
 		}
 
-		/// <summary>
-		/// Gets a lock for an object (discriminated by the provided 'key' param), which can be shared by other objects that call this extension method.
-		/// To release the lock, the caller must call Dispose on the returned object.
-		/// </summary>
-		/// <remarks>
-		/// The lock context returned is guaranteed to be the same reference if two or more objects (with equivalent keys) 
-		/// call this method 'at the same time'. The lock context is not guaranteed to be the same between calls if requests to GetLock are executed 
-		/// serially with no concurrent calls with the same key.
-		/// Does not lock on the key.
-		/// </remarks>
-		/// <param name="key">A unique key to create a lock for</param>
-		/// <param name="token">A cancellation token</param>
-		/// <returns>A lock unique to the specified key value</returns>
-		public static async Task<IDisposable> GetLockAsync(string key, CancellationToken token = default(CancellationToken))
-		{
-			LockObject @lock = null;
-			do
-			{
-				if (@lock != null) @lock.Dispose();
+		///// <summary>
+		///// Gets a lock for an object (discriminated by the provided 'key' param), which can be shared by other objects that call this extension method.
+		///// To release the lock, the caller must call Dispose on the returned object.
+		///// </summary>
+		///// <remarks>
+		///// The lock context returned is guaranteed to be the same reference if two or more objects (with equivalent keys) 
+		///// call this method 'at the same time'. The lock context is not guaranteed to be the same between calls if requests to GetLock are executed 
+		///// serially with no concurrent calls with the same key.
+		///// Does not lock on the key.
+		///// </remarks>
+		///// <param name="key">A unique key to create a lock for</param>
+		///// <param name="token">A cancellation token</param>
+		///// <returns>A lock unique to the specified key value</returns>
+		//public static async Task<IDisposable> GetLockAsync(string key, CancellationToken token = default(CancellationToken))
+		//{
+		//	LockObject @lock = null;
+		//	do
+		//	{
+		//		if (@lock != null) @lock.Dispose();
 
-				@lock = new LockObject(key, LockManager.Locks, LockManager.Locks.GetOrAdd(key, _ => new LockState()));
-				await @lock.AcquireAsync(token).ConfigureAwait(false);
-			} while (!@lock.IsValid);
-			return @lock;
-		}
+		//		@lock = new LockObject(key, LockManager.Locks, LockManager.Locks.GetOrAdd(key, _ => new LockState()));
+		//		await @lock.AcquireAsync(token).ConfigureAwait(false);
+		//	} while (!@lock.IsValid);
+		//	return @lock;
+		//}
 
 		private static class LockManager
 		{
@@ -124,10 +124,10 @@ namespace Jabberwocky.Core.Utils
 				_lockState.Semaphore.Wait();
 			}
 
-			public async Task AcquireAsync(CancellationToken token = default(CancellationToken))
-			{
-				await _lockState.Semaphore.WaitAsync(token).ConfigureAwait(false);
-			}
+			//public async Task AcquireAsync(CancellationToken token = default(CancellationToken))
+			//{
+			//	await _lockState.Semaphore.WaitAsync(token).ConfigureAwait(false);
+			//}
 
 			public void Dispose()
 			{

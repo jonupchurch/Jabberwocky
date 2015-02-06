@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App_Config\Include\Glass.Mapper.Sc.CodeFirst.config.exclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,7 @@ namespace Jabberwocky.Glass.Autofac.Extensions
 
 			var assemblies = assemblyNames.Select(Assembly.Load);
 
-			foreach (var type in assemblies.SelectMany(a => a.ExportedTypes).Where(type => typeof(GlassBase).IsAssignableFrom(type)))
+			foreach (var type in assemblies.SelectMany(a => a.GetExportedTypes()).Where(type => typeof(GlassBase).IsAssignableFrom(type)))
 			{
 				// Register lazy versions of each "DIRECT" (no inheritance) interface
 				foreach (

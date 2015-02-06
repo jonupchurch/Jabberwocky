@@ -48,13 +48,15 @@ namespace Jabberwocky.Glass.Factory.Builder
 
 		protected static bool GetIsFallback(Type abstractType)
 		{
-			var customAttribute = abstractType.GetCustomAttribute<GlassFactoryTypeAttribute>();	// overload: true?
+			//var customAttribute = abstractType.GetCustomAttribute<GlassFactoryTypeAttribute>();	// overload: true?
+			var customAttribute = abstractType.GetCustomAttributes(typeof(GlassFactoryTypeAttribute), true).Cast<GlassFactoryTypeAttribute>().FirstOrDefault();
 			return customAttribute.IsFallback;
 		}
 
 		protected static Type GetGlassType(Type abstractType)
 		{
-			var customAttribute = abstractType.GetCustomAttribute<GlassFactoryTypeAttribute>();	// overload: true?
+			//var customAttribute = abstractType.GetCustomAttribute<GlassFactoryTypeAttribute>();	// overload: true?
+			var customAttribute = abstractType.GetCustomAttributes(typeof(GlassFactoryTypeAttribute), true).Cast<GlassFactoryTypeAttribute>().FirstOrDefault();
 			return customAttribute.Type;
 		}
 

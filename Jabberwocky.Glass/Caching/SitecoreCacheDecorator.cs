@@ -87,65 +87,65 @@ namespace Jabberwocky.Glass.Caching
 			return newKey;
 		}
 
-		#region IAsyncCacheProvider Decorated Implementation
+		//#region IAsyncCacheProvider Decorated Implementation
 
-		public async Task<T> GetFromCacheAsync<T>(string key, Func<T> callback,
-			CancellationToken token = new CancellationToken()) where T : class
-		{
-			if (ShouldPassThrough)
-			{
-				return callback();
-			}
-			var newKey = GenerateCacheKey(key);
-			return await Provider.GetFromCacheAsync(newKey, callback, token).ConfigureAwait(false);
-		}
+		//public async Task<T> GetFromCacheAsync<T>(string key, Func<T> callback,
+		//	CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	if (ShouldPassThrough)
+		//	{
+		//		return callback();
+		//	}
+		//	var newKey = GenerateCacheKey(key);
+		//	return await Provider.GetFromCacheAsync(newKey, callback, token).ConfigureAwait(false);
+		//}
 
-		public async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<T> callback,
-			CancellationToken token = new CancellationToken()) where T : class
-		{
-			if (ShouldPassThrough)
-			{
-				return callback();
-			}
-			var newKey = GenerateCacheKey(key);
-			return await Provider.GetFromCacheAsync(newKey, absoluteExpiration, callback, token).ConfigureAwait(false);
-		}
+		//public async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<T> callback,
+		//	CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	if (ShouldPassThrough)
+		//	{
+		//		return callback();
+		//	}
+		//	var newKey = GenerateCacheKey(key);
+		//	return await Provider.GetFromCacheAsync(newKey, absoluteExpiration, callback, token).ConfigureAwait(false);
+		//}
 
-		public async Task<T> GetFromCacheAsync<T>(string key, Func<CancellationToken, Task<T>> callback,
-			CancellationToken token = new CancellationToken()) where T : class
-		{
-			if (ShouldPassThrough)
-			{
-				return await callback(token).ConfigureAwait(false);
-			}
-			var newKey = GenerateCacheKey(key);
-			return await Provider.GetFromCacheAsync(newKey, callback, token).ConfigureAwait(false);
-		}
+		//public async Task<T> GetFromCacheAsync<T>(string key, Func<CancellationToken, Task<T>> callback,
+		//	CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	if (ShouldPassThrough)
+		//	{
+		//		return await callback(token).ConfigureAwait(false);
+		//	}
+		//	var newKey = GenerateCacheKey(key);
+		//	return await Provider.GetFromCacheAsync(newKey, callback, token).ConfigureAwait(false);
+		//}
 
-		public async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<CancellationToken, Task<T>> callback,
-			CancellationToken token = new CancellationToken()) where T : class
-		{
-			if (ShouldPassThrough)
-			{
-				return await callback(token).ConfigureAwait(false);
-			}
-			var newKey = GenerateCacheKey(key);
-			return await Provider.GetFromCacheAsync(newKey, absoluteExpiration, callback, token);
-		}
+		//public async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<CancellationToken, Task<T>> callback,
+		//	CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	if (ShouldPassThrough)
+		//	{
+		//		return await callback(token).ConfigureAwait(false);
+		//	}
+		//	var newKey = GenerateCacheKey(key);
+		//	return await Provider.GetFromCacheAsync(newKey, absoluteExpiration, callback, token);
+		//}
 
-		public async Task AddToCacheAsync<T>(string key, T value, CancellationToken token = new CancellationToken()) where T : class
-		{
-			var newKey = GenerateCacheKey(key);
-			await Provider.AddToCacheAsync(newKey, value, token).ConfigureAwait(false);
-		}
+		//public async Task AddToCacheAsync<T>(string key, T value, CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	var newKey = GenerateCacheKey(key);
+		//	await Provider.AddToCacheAsync(newKey, value, token).ConfigureAwait(false);
+		//}
 
-		public async Task<T> GetFromCacheAsync<T>(string key, CancellationToken token = new CancellationToken()) where T : class
-		{
-			var newKey = GenerateCacheKey(key);
-			return await Provider.GetFromCacheAsync<T>(newKey, token).ConfigureAwait(false);
-		}
+		//public async Task<T> GetFromCacheAsync<T>(string key, CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	var newKey = GenerateCacheKey(key);
+		//	return await Provider.GetFromCacheAsync<T>(newKey, token).ConfigureAwait(false);
+		//}
 
-		#endregion
+		//#endregion
 
 	}
 }

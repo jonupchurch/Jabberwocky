@@ -98,85 +98,85 @@ namespace Jabberwocky.Core.Caching.Base
 			return Cache.Get(key) as T;
 		}
 
-		#region IAsyncCacheProvider Implementation
+		//#region IAsyncCacheProvider Implementation
 
-		private static readonly Task CompletedTask = Task.FromResult(true);
+		//private static readonly Task CompletedTask = Task.FromResult(true);
 
-		public virtual Task<T> GetFromCacheAsync<T>(string key, Func<T> callback, CancellationToken token = default(CancellationToken)) where T : class
-		{
-			return GetFromCacheAsync(key, TimeSpan.Zero, callback, token);
-		}
+		//public virtual Task<T> GetFromCacheAsync<T>(string key, Func<T> callback, CancellationToken token = default(CancellationToken)) where T : class
+		//{
+		//	return GetFromCacheAsync(key, TimeSpan.Zero, callback, token);
+		//}
 
-		public virtual async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<T> callback, CancellationToken token = default(CancellationToken))
-			where T : class
-		{
-			if (key == null) throw new ArgumentNullException("key");
-			if (callback == null) throw new ArgumentNullException("callback");
+		//public virtual async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<T> callback, CancellationToken token = default(CancellationToken))
+		//	where T : class
+		//{
+		//	if (key == null) throw new ArgumentNullException("key");
+		//	if (callback == null) throw new ArgumentNullException("callback");
 
-			return await GetFromCacheAsync<T>(key, absoluteExpiration, ct => Task.FromResult(callback()), token);
-		}
+		//	return await GetFromCacheAsync<T>(key, absoluteExpiration, ct => Task.FromResult(callback()), token);
+		//}
 
-		public virtual Task<T> GetFromCacheAsync<T>(string key, Func<CancellationToken, Task<T>> callback, CancellationToken token = default(CancellationToken)) where T : class
-		{
-			return GetFromCacheAsync(key, TimeSpan.Zero, callback, token);
-		}
+		//public virtual Task<T> GetFromCacheAsync<T>(string key, Func<CancellationToken, Task<T>> callback, CancellationToken token = default(CancellationToken)) where T : class
+		//{
+		//	return GetFromCacheAsync(key, TimeSpan.Zero, callback, token);
+		//}
 
-		public virtual async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<CancellationToken, Task<T>> callback,
-			CancellationToken token = new CancellationToken()) where T : class
-		{
-			if (key == null) throw new ArgumentNullException("key");
-			if (callback == null) throw new ArgumentNullException("callback");
+		//public virtual async Task<T> GetFromCacheAsync<T>(string key, TimeSpan absoluteExpiration, Func<CancellationToken, Task<T>> callback,
+		//	CancellationToken token = new CancellationToken()) where T : class
+		//{
+		//	if (key == null) throw new ArgumentNullException("key");
+		//	if (callback == null) throw new ArgumentNullException("callback");
 
-			// First Get is optimistic
-			T cacheItem = Cache.Get(key) as T;
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
+		//	// First Get is optimistic
+		//	T cacheItem = Cache.Get(key) as T;
+		//	if (cacheItem != null)
+		//	{
+		//		return cacheItem;
+		//	}
 
-			// Second Get tries again from Cache (just in case we were pre-empted by another thread's Add).
-			// Failing that, it atomically adds to the cache and returns the computed value from the callback.
-			// Note: the reason we're not using Cache.AddOrGetExisting() is because we care about potentially long-running callbacks... 
-			//       we don't want to execute it multiple times when calling method.
+		//	// Second Get tries again from Cache (just in case we were pre-empted by another thread's Add).
+		//	// Failing that, it atomically adds to the cache and returns the computed value from the callback.
+		//	// Note: the reason we're not using Cache.AddOrGetExisting() is because we care about potentially long-running callbacks... 
+		//	//       we don't want to execute it multiple times when calling method.
 
-			T value;
-			// This lock is here to avoid edge-case where we have multiple threads executing a long-running callback
-			// i.e. Only do it once, so first thread actually executes callback, re-entrant threads grab from cache.
-			// Note: In very worst case, callback can still be called multiple times if the item is evicted too quickly.
-			using (await key.GetLockAsync(token).ConfigureAwait(false))
-			{
-				var item = Cache.Get(key) as T;
-				value = item ?? await callback(token).ConfigureAwait(false);
-				var expiry = absoluteExpiration == TimeSpan.Zero ? ObjectCache.InfiniteAbsoluteExpiration : DateTime.UtcNow.Add(absoluteExpiration);
-				Cache.Add(key, value, expiry);
-			}
-			return value;
-		}
+		//	T value;
+		//	// This lock is here to avoid edge-case where we have multiple threads executing a long-running callback
+		//	// i.e. Only do it once, so first thread actually executes callback, re-entrant threads grab from cache.
+		//	// Note: In very worst case, callback can still be called multiple times if the item is evicted too quickly.
+		//	using (await key.GetLockAsync(token).ConfigureAwait(false))
+		//	{
+		//		var item = Cache.Get(key) as T;
+		//		value = item ?? await callback(token).ConfigureAwait(false);
+		//		var expiry = absoluteExpiration == TimeSpan.Zero ? ObjectCache.InfiniteAbsoluteExpiration : DateTime.UtcNow.Add(absoluteExpiration);
+		//		Cache.Add(key, value, expiry);
+		//	}
+		//	return value;
+		//}
 
-		public virtual Task AddToCacheAsync<T>(string key, T value, CancellationToken token = default(CancellationToken)) where T : class
-		{
-			if (key == null) throw new ArgumentNullException("key");
+		//public virtual Task AddToCacheAsync<T>(string key, T value, CancellationToken token = default(CancellationToken)) where T : class
+		//{
+		//	if (key == null) throw new ArgumentNullException("key");
 
-			if (value == null)
-			{
-				Cache.Remove(key);
-			}
-			else
-			{
-				Cache.Set(key, value, ObjectCache.InfiniteAbsoluteExpiration);
-			}
+		//	if (value == null)
+		//	{
+		//		Cache.Remove(key);
+		//	}
+		//	else
+		//	{
+		//		Cache.Set(key, value, ObjectCache.InfiniteAbsoluteExpiration);
+		//	}
 
-			return CompletedTask;
-		}
+		//	return CompletedTask;
+		//}
 
-		public virtual Task<T> GetFromCacheAsync<T>(string key, CancellationToken token = default(CancellationToken)) where T : class
-		{
-			if (key == null) throw new ArgumentNullException("key");
+		//public virtual Task<T> GetFromCacheAsync<T>(string key, CancellationToken token = default(CancellationToken)) where T : class
+		//{
+		//	if (key == null) throw new ArgumentNullException("key");
 
-			return Task.FromResult(Cache.Get(key) as T);
-		}
+		//	return Task.FromResult(Cache.Get(key) as T);
+		//}
 
-		#endregion
+		//#endregion
 
 	}
 }

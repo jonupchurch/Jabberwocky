@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Jabberwocky.Glass.Factory.Attributes;
 using Jabberwocky.Glass.Factory.Exceptions;
@@ -26,7 +27,8 @@ namespace Jabberwocky.Glass.Factory.Implementation.Decorators
 
 		public object Create(Type t, Type asType, object glassModel)
 		{
-			var typeAttribute = t.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			//var typeAttribute = t.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			var typeAttribute = t.GetCustomAttributes(typeof(GlassFactoryTypeAttribute), true).Cast<GlassFactoryTypeAttribute>().FirstOrDefault();
 			var exactGenericGlassType = typeAttribute.Type;
 
 			// Assert that we are able to construct the Glass Factory type with the given Glass model

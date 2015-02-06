@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Jabberwocky.Glass.Factory.Attributes;
@@ -26,7 +27,8 @@ namespace Jabberwocky.Glass.Autofac.Factory.Implementation
 
 		public object Create(Type t, Type asType, object glassModel)
 		{
-			var typeAttribute = t.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			//var typeAttribute = t.GetCustomAttribute<GlassFactoryTypeAttribute>();
+			var typeAttribute = t.GetCustomAttributes(typeof (GlassFactoryTypeAttribute), true).Cast<GlassFactoryTypeAttribute>().First();
 			var exactGenericGlassType = typeAttribute.Type;
 
 			var implTarget = _autofacContainer.Resolve(t,
