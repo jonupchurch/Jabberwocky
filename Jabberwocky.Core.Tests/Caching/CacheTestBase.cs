@@ -102,70 +102,70 @@ namespace Jabberwocky.Core.Tests.Caching
 		
 		// ASYNC
 
-		[Test, ExpectedException(typeof(ArgumentNullException))]
-		public virtual async Task GetFromCacheAsync_NullKey_ReturnsNull()
-		{
-			await _cacheProvider.GetFromCacheAsync<object>(null);
-		}
+		//[Test, ExpectedException(typeof(ArgumentNullException))]
+		//public virtual async Task GetFromCacheAsync_NullKey_ReturnsNull()
+		//{
+		//	await _cacheProvider.GetFromCacheAsync<object>(null);
+		//}
 
-		[Test]
-		public virtual async Task GetFromCacheAsync_ValidKey_ItemExists_AreSame()
-		{
-			const string key = "key";
-			var obj = new object();
+		//[Test]
+		//public virtual async Task GetFromCacheAsync_ValidKey_ItemExists_AreSame()
+		//{
+		//	const string key = "key";
+		//	var obj = new object();
 
-			InnerCache.Add(key, obj, DateTime.Now + TimeSpan.FromDays(1));
-			var retVal = await _cacheProvider.GetFromCacheAsync<object>("key");
-			Assert.AreSame(obj, retVal);
-		}
+		//	InnerCache.Add(key, obj, DateTime.Now + TimeSpan.FromDays(1));
+		//	var retVal = await _cacheProvider.GetFromCacheAsync<object>("key");
+		//	Assert.AreSame(obj, retVal);
+		//}
 
-		[Test, ExpectedException(typeof(ArgumentNullException))]
-		public virtual async Task GetFromCacheAsync_NullKey_NullCallback_Throws()
-		{
-			await _cacheProvider.GetFromCacheAsync<object>(null, (Func<string>) null);
-		}
+		//[Test, ExpectedException(typeof(ArgumentNullException))]
+		//public virtual async Task GetFromCacheAsync_NullKey_NullCallback_Throws()
+		//{
+		//	await _cacheProvider.GetFromCacheAsync<object>(null, (Func<string>) null);
+		//}
 
-		[Test, ExpectedException(typeof(ArgumentNullException))]
-		public virtual async Task GetFromCacheAsync_EmptyString_NullCallback_Throws()
-		{
-			await _cacheProvider.GetFromCacheAsync<object>(string.Empty, (Func<string>)null);
-		}
+		//[Test, ExpectedException(typeof(ArgumentNullException))]
+		//public virtual async Task GetFromCacheAsync_EmptyString_NullCallback_Throws()
+		//{
+		//	await _cacheProvider.GetFromCacheAsync<object>(string.Empty, (Func<string>)null);
+		//}
 
-		[Test]
-		public virtual async Task GetFromCacheAsync_Key_ReturnsValue()
-		{
-			var obj = new object();
+		//[Test]
+		//public virtual async Task GetFromCacheAsync_Key_ReturnsValue()
+		//{
+		//	var obj = new object();
 
-			var returnVal = await _cacheProvider.GetFromCacheAsync("key", () => obj);
-			Assert.AreSame(obj, returnVal);
-		}
+		//	var returnVal = await _cacheProvider.GetFromCacheAsync("key", () => obj);
+		//	Assert.AreSame(obj, returnVal);
+		//}
 
-		[Test]
-		public virtual async Task GetFromCacheAsync_Key_AsyncCallback_ReturnsValue()
-		{
-			var obj = new object();
+		//[Test]
+		//public virtual async Task GetFromCacheAsync_Key_AsyncCallback_ReturnsValue()
+		//{
+		//	var obj = new object();
 
-			var returnVal = await _cacheProvider.GetFromCacheAsync("key", async ct => await Task.FromResult(obj));
-			Assert.AreSame(obj, returnVal);
-		}
+		//	var returnVal = await _cacheProvider.GetFromCacheAsync("key", async ct => await Task.FromResult(obj));
+		//	Assert.AreSame(obj, returnVal);
+		//}
 
-		[Test]
-		public virtual async Task AddToCacheAsync_Key_NullObj_Successful()
-		{
-			const string key = "key";
+		//[Test]
+		//public virtual async Task AddToCacheAsync_Key_NullObj_Successful()
+		//{
+		//	const string key = "key";
 
-			await _cacheProvider.AddToCacheAsync<string>(key, null);
-			Assert.IsFalse(InnerCache.Contains(key));
-		}
+		//	await _cacheProvider.AddToCacheAsync<string>(key, null);
+		//	Assert.IsFalse(InnerCache.Contains(key));
+		//}
 
-		[Test]
-		public virtual async Task AddToCacheAsync_Key_Obj_Successful()
-		{
-			const string key = "key";
-			var obj = new object();
-			await _cacheProvider.AddToCacheAsync(key, obj);
-			Assert.IsTrue(InnerCache.Contains(key));
-			Assert.AreSame(obj, InnerCache.Get(key));
-		}
+		//[Test]
+		//public virtual async Task AddToCacheAsync_Key_Obj_Successful()
+		//{
+		//	const string key = "key";
+		//	var obj = new object();
+		//	await _cacheProvider.AddToCacheAsync(key, obj);
+		//	Assert.IsTrue(InnerCache.Contains(key));
+		//	Assert.AreSame(obj, InnerCache.Get(key));
+		//}
 	}
 }
