@@ -12,8 +12,8 @@ namespace Jabberwocky.Glass.Autofac.Extensions
 		{
 			var assemblies = new[] {Assembly.GetExecutingAssembly()}.Concat(assemblyNames.Select(Assembly.Load)).Distinct();
 
-			foreach (var meta in assemblies.SelectMany(asm => asm.ExportedTypes)
-				.Select(type => new { Type = type, Attr = type.GetCustomAttributes<AutowireServiceAttribute>(true).FirstOrDefault()})
+			foreach (var meta in assemblies.SelectMany(asm => asm.GetExportedTypes())
+				.Select(type => new { Type = type, Attr = type.GetCustomAttributes(true).OfType<AutowireServiceAttribute>().FirstOrDefault() })
 				.Where(meta => meta.Attr != null))
 			{
 				if (meta.Type.IsInterface && meta.Attr.IsAggregateService)
@@ -27,9 +27,9 @@ namespace Jabberwocky.Glass.Autofac.Extensions
 
 				switch (meta.Attr.LifetimeScope)
 				{
-					case LifetimeScope.PerRequest:
-						registration.InstancePerRequest();
-                        break;
+					//case LifetimeScope.PerRequest:
+					//	registration.InstancePerRequest();
+     //                   break;
 					case LifetimeScope.PerScope:
 						registration.InstancePerLifetimeScope();
                         break;

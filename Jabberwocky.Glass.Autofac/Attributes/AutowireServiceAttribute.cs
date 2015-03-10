@@ -12,10 +12,10 @@ namespace Jabberwocky.Glass.Autofac.Attributes
 		/// Instance per parent resolution scope
 		/// </summary>
 		PerScope,
-		/// <summary>
-		///  For Web-based scenarios; instance per web request
-		/// </summary>
-		PerRequest,	// TODO: Do we need this (ie, can this be covered by 'PerScope')? Might be beneficial in some cases...
+		///// <summary>
+		/////  For Web-based scenarios; instance per web request
+		///// </summary>
+		//PerRequest,	// TODO: Do we need this (ie, can this be covered by 'PerScope')? Might be beneficial in some cases...
 		/// <summary>
 		/// Externally owned; will not be tracked by the container
 		/// </summary>
