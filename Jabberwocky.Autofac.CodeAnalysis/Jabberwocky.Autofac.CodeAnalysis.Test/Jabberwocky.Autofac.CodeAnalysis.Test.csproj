@@ -106,18 +106,23 @@
       <Link>References\AutowireServiceAttribute.cs</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="InvariantTests.cs" />
     <Compile Include="Verifiers\CodeFixVerifier.cs" />
     <Compile Include="Verifiers\DiagnosticVerifier.cs" />
     <Compile Include="Helpers\CodeFixVerifier.Helper.cs" />
     <Compile Include="Helpers\DiagnosticResult.cs" />
     <Compile Include="Helpers\DiagnosticVerifier.Helper.cs" />
-    <Compile Include="UnitTests.cs" />
+    <Compile Include="InvalidNestedLifetimeScopeAnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Jabberwocky.Autofac\Jabberwocky.Autofac.csproj">
+      <Project>{315DCFFB-97B4-43E5-9ECF-3EDC7E32C93F}</Project>
+      <Name>Jabberwocky.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jabberwocky.Autofac.CodeAnalysis\Jabberwocky.Autofac.CodeAnalysis.csproj">
       <Project>{19991F33-1A67-45CB-BA62-DCDB15471D69}</Project>
       <Name>Jabberwocky.Autofac.CodeAnalysis</Name>
