@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Autofac.Builder;
 using Autofac.Core;
+using Autofac.Core.Activators.Delegate;
+using Autofac.Core.Activators.Reflection;
+using Autofac.Core.Registration;
+using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
 using Jabberwocky.Autofac.Aspects.Attributes;
 using Jabberwocky.Autofac.Modules.Aspected.Configuration;
@@ -15,6 +20,8 @@ namespace Jabberwocky.Autofac.Modules.Aspected
 {
 	public class AspectInterceptionModule : Module
 	{
+		protected static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator(true);
+
 		protected const string ReservedProxyInterface = "Castle.DynamicProxy.IProxyTargetAccessor";
 		private static readonly Lazy<DefaultProxyStrategy> LazyDefaultStrategy = new Lazy<DefaultProxyStrategy>();
 		protected static DefaultProxyStrategy DefaultStrategy => LazyDefaultStrategy.Value;
@@ -63,7 +70,16 @@ namespace Jabberwocky.Autofac.Modules.Aspected
 		protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry,
 			IComponentRegistration registration)
 		{
-			InterceptRegistration(registration, Interceptors);
+			var type = registration.Activator.LimitType;
+			if (!type.Namespace.StartsWith("Sitecore") || registration.Activator is DelegateActivator) return;
+			
+			var builder = RegistrationBuilder.ForType(type).As(registration.Target.Services.ToArray())
+				.EnableClassInterceptors()
+				.InterceptedBy(Interceptors.Select(i => i.GetType()).ToArray());
+			var reg = builder.CreateRegistration();
+
+			componentRegistry.Register(reg);
+			//InterceptRegistration(registration, Interceptors);
 
 			base.AttachToComponentRegistration(componentRegistry, registration);
 		}

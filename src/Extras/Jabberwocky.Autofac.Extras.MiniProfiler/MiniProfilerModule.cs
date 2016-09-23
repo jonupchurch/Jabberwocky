@@ -1,6 +1,9 @@
-﻿using Jabberwocky.Autofac.Extras.MiniProfiler.Configuration;
+﻿using Autofac;
+using Jabberwocky.Autofac.Extras.MiniProfiler.Configuration;
+using Jabberwocky.Autofac.Extras.MiniProfiler.Interceptors;
 using Jabberwocky.Autofac.Modules.Aspected;
 using Jabberwocky.Autofac.Modules.Aspected.Strategies;
+using StackExchange.Profiling;
 
 namespace Jabberwocky.Autofac.Extras.MiniProfiler
 {
@@ -27,6 +30,13 @@ namespace Jabberwocky.Autofac.Extras.MiniProfiler
 		public MiniProfilerModule(MiniProfilerConfiguration config)
 			: base(config)
 		{
+		}
+
+		protected override void Load(ContainerBuilder builder)
+		{
+			base.Load(builder);
+
+			builder.RegisterType<AsyncProfilingInterceptor>().AsSelf();
 		}
 	}
 }
